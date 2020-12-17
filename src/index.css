@@ -1,13 +1,44 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+#episodeButtonsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.episodeButton {
+  border: 1px solid #e50914;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.episodeTitle {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  flex: 1;
+  padding: 20px;
+  background-color: #e50914;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.episodeDuration {
+  padding: 10px 20px;
 }

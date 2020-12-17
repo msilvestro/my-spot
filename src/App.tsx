@@ -3,11 +3,11 @@ import "./App.css"
 
 const App: React.FC = () => {
   const name = "Matteo"
-  const [selectedEpisode, setSelectedEpisode] = useState(0)
+  const [selectedDuration, setSelectedDuration] = useState(0)
 
-  const setActive = (baseClassName: string, condition: boolean) => {
+  const getSelectedClass = (baseClassName: string, condition: boolean) => {
     return condition
-      ? `${baseClassName} ${baseClassName}-active`
+      ? `${baseClassName} ${baseClassName}-selected`
       : baseClassName
   }
 
@@ -15,25 +15,25 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Sei seduto al mio posto</h1>
       <p>Ciao {name}, cosa vuoi vedere oggi?</p>
-      <div id="episodeButtonsContainer">
+      <div id="episodes-container">
         {[
           { title: "Sitcom", duration: 20 },
           { title: "Puntata standard", duration: 40 },
           { title: "Puntata lunga", duration: 60 },
           { title: "Film", duration: 120 },
         ].map((episode) => {
-          const selected = episode.duration === selectedEpisode
+          const selected = episode.duration === selectedDuration
 
           return (
             <div
               key={episode.title}
-              className={setActive("episodeButton", selected)}
-              onClick={() => setSelectedEpisode(episode.duration)}
+              className={getSelectedClass("episode", selected)}
+              onClick={() => setSelectedDuration(episode.duration)}
             >
-              <div className={setActive("episodeTitle", selected)}>
+              <div className={getSelectedClass("title", selected)}>
                 <span>{episode.title}</span>
               </div>
-              <div className="episodeDuration">~ {episode.duration} minuti</div>
+              <div className="duration">~ {episode.duration} minuti</div>
             </div>
           )
         })}

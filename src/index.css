@@ -12,13 +12,13 @@ code {
     monospace;
 }
 
-#episodeButtonsContainer {
+#episodes-container {
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
 }
 
-.episodeButton {
+.episode {
   border: 1px solid #757575;
   flex: 1;
   display: flex;
@@ -27,11 +27,11 @@ code {
   border-radius: 5px;
 }
 
-.episodeButton-active {
+.episode-selected {
   border: 1px solid #e50914;
 }
 
-.episodeTitle {
+.episode .title {
   text-transform: uppercase;
   font-weight: bold;
   color: white;
@@ -43,10 +43,10 @@ code {
   align-items: center;
 }
 
-.episodeTitle-active {
+.episode .title-selected {
   background-color: #e50914;
 }
 
-.episodeDuration {
+.episode .duration {
   padding: 10px 20px;
 }

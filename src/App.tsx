@@ -5,15 +5,37 @@ const App: React.FC = () => {
   const name = "Matteo"
   const [selectedDuration, setSelectedDuration] = useState(0)
 
-  const getSelectedClass = (baseClassName: string, condition: boolean) => {
-    return condition
-      ? `${baseClassName} ${baseClassName}-selected`
-      : baseClassName
+  const toggleClass = (className = "selected", condition: boolean) => {
+    return condition ? ` ${className}` : ""
   }
 
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
+      <div id="screens-container">
+        {[
+          { name: "Chiara", watching: true },
+          { name: "Monica", watching: false },
+          { name: "Matteo", watching: false },
+          { name: "Mamma e papà", watching: true },
+        ].map((screen) => (
+          <div
+            key={screen.name}
+            className={
+              "screen" +
+              toggleClass("screen-selected", screen.watching) +
+              toggleClass("screen-mine", name === screen.name)
+            }
+          >
+            <div className="name">
+              <p>{screen.name}</p>
+            </div>
+            <div className="watching">
+              {screen.watching ? "sta guardando" : "non sta guardando"}
+            </div>
+          </div>
+        ))}
+      </div>
       <p>Ciao {name}, cosa vuoi vedere oggi?</p>
       <div id="episodes-container">
         {[
@@ -27,10 +49,10 @@ const App: React.FC = () => {
           return (
             <div
               key={episode.title}
-              className={getSelectedClass("episode", selected)}
+              className={"episode" + toggleClass("episode-selected", selected)}
               onClick={() => setSelectedDuration(episode.duration)}
             >
-              <div className={getSelectedClass("title", selected)}>
+              <div className="title">
                 <span>{episode.title}</span>
               </div>
               <div className="duration">~ {episode.duration} minuti</div>

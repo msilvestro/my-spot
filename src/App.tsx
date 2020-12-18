@@ -12,7 +12,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
-      <div id="screens-container">
+      <div id="tvs-container">
         {[
           { name: "Chiara", watching: true },
           { name: "Monica", watching: false },
@@ -26,15 +26,15 @@ const App: React.FC = () => {
             <div
               key={screen.name}
               className={
-                "screen" +
-                toggleClass("screen-selected", screen.watching) +
-                toggleClass("screen-mine", isMe)
+                "tv" +
+                toggleClass("tv-watching", screen.watching) +
+                toggleClass("tv-mine", isMe)
               }
             >
-              <div className="name">
+              <div className="screen">
                 <p>{isMe ? "Tu" : screen.name}</p>
               </div>
-              <div className="watching">
+              <div className="bottomBar">
                 {screen.watching
                   ? watchingSentencte
                   : "non " + watchingSentencte}

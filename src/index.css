@@ -50,3 +50,26 @@ code {
 .episode .duration {
   padding: 10px 20px;
 }
+
+button {
+  padding: 20px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#start {
+  margin: 20px;
+  width: calc(100% - 40px);
+  max-width: 600px;
+  background-color: #e50914;
+  color: white;
+  border-color: #e50914;
+}
+
+#start:disabled {
+  background-color: #757575;
+  border-color: #757575;
+}

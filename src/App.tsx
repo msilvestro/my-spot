@@ -13,7 +13,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Sei seduto al mio posto</h1>
+      <h1>Sei seduto al mio posto!</h1>
       <p>Ciao {name}, cosa vuoi vedere oggi?</p>
       <div id="episodes-container">
         {[
@@ -38,6 +38,9 @@ const App: React.FC = () => {
           )
         })}
       </div>
+      <button id="start" disabled={selectedDuration === 0}>
+        Comincia a guardare
+      </button>
     </div>
   )
 }

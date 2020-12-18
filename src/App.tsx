@@ -18,23 +18,30 @@ const App: React.FC = () => {
           { name: "Monica", watching: false },
           { name: "Matteo", watching: false },
           { name: "Mamma e papà", watching: true },
-        ].map((screen) => (
-          <div
-            key={screen.name}
-            className={
-              "screen" +
-              toggleClass("screen-selected", screen.watching) +
-              toggleClass("screen-mine", name === screen.name)
-            }
-          >
-            <div className="name">
-              <p>{screen.name}</p>
+        ].map((screen) => {
+          const isMe = name === screen.name
+          const watchingSentencte = isMe ? "stai guardando" : "sta guardando"
+
+          return (
+            <div
+              key={screen.name}
+              className={
+                "screen" +
+                toggleClass("screen-selected", screen.watching) +
+                toggleClass("screen-mine", isMe)
+              }
+            >
+              <div className="name">
+                <p>{isMe ? "Tu" : screen.name}</p>
+              </div>
+              <div className="watching">
+                {screen.watching
+                  ? watchingSentencte
+                  : "non " + watchingSentencte}
+              </div>
             </div>
-            <div className="watching">
-              {screen.watching ? "sta guardando" : "non sta guardando"}
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
       <p>Ciao {name}, cosa vuoi vedere oggi?</p>
       <div id="episodes-container">

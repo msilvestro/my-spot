@@ -3,24 +3,23 @@ import "./App.css"
 
 import firebase from "./api/firebase"
 
-interface Dictionary<T> {
+type Dictionary<T> = {
   [key: string]: T
 }
 
-interface User {
+type User = {
   name: string
   watching: boolean
 }
 
 const App: React.FC = () => {
   const myId = "matteo"
-  const name = "Matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
 
   const getUsers = async () => {
     try {
-      const response = await firebase.get("users.json")
+      const response = await firebase.get<Dictionary<User>>("users.json")
       setUsers(response.data)
     } catch (error) {
       console.log(error)
@@ -29,7 +28,7 @@ const App: React.FC = () => {
 
   const updateWatching = async (watching: boolean) => {
     try {
-      const response = await firebase.put(
+      const response = await firebase.put<boolean>(
         `users/${myId}/watching.json`,
         watching.toString()
       )
@@ -51,8 +50,9 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
       <div id="tvs-container">
-        {Object.values(users).map((user) => {
-          const isMe = name === user.name
+        {Object.keys(users).map((userId) => {
+          const user = users[userId]
+          const isMe = userId === myId
           const watchingSentencte = isMe ? "stai guardando" : "sta guardando"
 
           return (
@@ -77,7 +77,9 @@ const App: React.FC = () => {
 
       {users[myId] && (
         <div>
-          <p>Ciao {name}, cosa vuoi vedere oggi?</p>
+          <p>
+            Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
+          </p>
           <div id="episodes-container">
             {[
               { title: "Sitcom", duration: 20 },

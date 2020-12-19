@@ -9,7 +9,7 @@ type Dictionary<T> = {
 
 type User = {
   name: string
-  watching: boolean
+  end_time: number
 }
 
 const App: React.FC = () => {
@@ -26,16 +26,33 @@ const App: React.FC = () => {
     }
   }
 
-  const updateWatching = async (watching: boolean) => {
+  const updateWatching = async (duration: number) => {
     try {
       const response = await firebase.put<boolean>(
-        `users/${myId}/watching.json`,
-        watching.toString()
+        `users/${myId}/end_time.json`,
+        Math.floor(Date.now() / 1000) + duration * 60
       )
       console.log(response)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const getRemaining = (
+    user: User,
+    type: "seconds" | "minutes" = "seconds"
+  ) => {
+    const remainingSeconds = user.end_time - Math.floor(Date.now() / 1000)
+    switch (type) {
+      case "seconds":
+        return remainingSeconds
+      case "minutes":
+        return Math.ceil(remainingSeconds / 60)
+    }
+  }
+
+  const isWatching = (user: User) => {
+    return getRemaining(user, "seconds") > 0
   }
 
   useEffect(() => {
@@ -53,14 +70,15 @@ const App: React.FC = () => {
         {Object.keys(users).map((userId) => {
           const user = users[userId]
           const isMe = userId === myId
-          const watchingSentencte = isMe ? "stai guardando" : "sta guardando"
+          const watchingSentence = isMe ? "stai guardando" : "sta guardando"
+          const watching = isWatching(user)
 
           return (
             <div
               key={user.name}
               className={
                 "tv" +
-                toggleClass("tv-watching", user.watching) +
+                toggleClass("tv-watching", watching) +
                 toggleClass("tv-mine", isMe)
               }
             >
@@ -68,7 +86,13 @@ const App: React.FC = () => {
                 <p>{isMe ? "Tu" : user.name}</p>
               </div>
               <div className="bottomBar">
-                {user.watching ? watchingSentencte : "non " + watchingSentencte}
+                <p>{watching ? watchingSentence : "non " + watchingSentence}</p>
+
+                {watching ? (
+                  <p>
+                    mancano <b>{getRemaining(user, "minutes")}</b> minuti
+                  </p>
+                ) : null}
               </div>
             </div>
           )
@@ -105,16 +129,16 @@ const App: React.FC = () => {
               )
             })}
           </div>
-          {!users[myId].watching ? (
+          {!isWatching(users[myId]) ? (
             <button
               id="start"
               disabled={selectedDuration === 0}
-              onClick={() => updateWatching(true)}
+              onClick={() => updateWatching(selectedDuration)}
             >
               Comincia a guardare
             </button>
           ) : (
-            <button id="stop" onClick={() => updateWatching(false)}>
+            <button id="stop" onClick={() => updateWatching(0)}>
               Interrompi
             </button>
           )}

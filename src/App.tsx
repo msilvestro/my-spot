@@ -1,9 +1,26 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./App.css"
+
+import firebase from "./api/firebase"
+
+type User = {
+  name: string
+  watching: boolean
+}
 
 const App: React.FC = () => {
   const name = "Matteo"
+  const [users, setUsers] = useState<Array<User>>([])
   const [selectedDuration, setSelectedDuration] = useState(0)
+
+  const getUsers = async () => {
+    const response = await firebase.get("users.json")
+    setUsers(Object.values(response.data))
+  }
+
+  useEffect(() => {
+    getUsers()
+  })
 
   const toggleClass = (className = "selected", condition: boolean) => {
     return condition ? ` ${className}` : ""
@@ -13,31 +30,24 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
       <div id="tvs-container">
-        {[
-          { name: "Chiara", watching: true },
-          { name: "Monica", watching: false },
-          { name: "Matteo", watching: false },
-          { name: "Mamma e papà", watching: true },
-        ].map((screen) => {
-          const isMe = name === screen.name
+        {users.map((user) => {
+          const isMe = name === user.name
           const watchingSentencte = isMe ? "stai guardando" : "sta guardando"
 
           return (
             <div
-              key={screen.name}
+              key={user.name}
               className={
                 "tv" +
-                toggleClass("tv-watching", screen.watching) +
+                toggleClass("tv-watching", user.watching) +
                 toggleClass("tv-mine", isMe)
               }
             >
               <div className="screen">
-                <p>{isMe ? "Tu" : screen.name}</p>
+                <p>{isMe ? "Tu" : user.name}</p>
               </div>
               <div className="bottomBar">
-                {screen.watching
-                  ? watchingSentencte
-                  : "non " + watchingSentencte}
+                {user.watching ? watchingSentencte : "non " + watchingSentencte}
               </div>
             </div>
           )

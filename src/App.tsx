@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import "./App.css"
 
 import firebase from "./api/firebase"
@@ -16,6 +16,7 @@ const App: React.FC = () => {
   const myId = "matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
+  const startWatchingSection = useRef<HTMLDivElement>(null)
 
   const getUsers = async () => {
     try {
@@ -63,6 +64,12 @@ const App: React.FC = () => {
     return condition ? ` ${className}` : ""
   }
 
+  const getStyle = () => {
+    return !isWatching(users[myId]) && startWatchingSection.current
+      ? { height: startWatchingSection.current.scrollHeight }
+      : { height: 0 }
+  }
+
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
@@ -101,34 +108,6 @@ const App: React.FC = () => {
 
       {users[myId] && (
         <div>
-          <p>
-            Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
-          </p>
-          <div id="episodes-container">
-            {[
-              { title: "Sitcom", duration: 20 },
-              { title: "Puntata standard", duration: 40 },
-              { title: "Puntata lunga", duration: 60 },
-              { title: "Film", duration: 120 },
-            ].map((episode) => {
-              const selected = episode.duration === selectedDuration
-
-              return (
-                <div
-                  key={episode.title}
-                  className={
-                    "episode" + toggleClass("episode-selected", selected)
-                  }
-                  onClick={() => setSelectedDuration(episode.duration)}
-                >
-                  <div className="title">
-                    <span>{episode.title}</span>
-                  </div>
-                  <div className="duration">~ {episode.duration} minuti</div>
-                </div>
-              )
-            })}
-          </div>
           {!isWatching(users[myId]) ? (
             <button
               id="start"
@@ -142,6 +121,41 @@ const App: React.FC = () => {
               Interrompi
             </button>
           )}
+          <div
+            id="start-watching"
+            ref={startWatchingSection}
+            className={toggleClass("collapsed", isWatching(users[myId]))}
+            style={getStyle()}
+          >
+            <p id="greetings">
+              Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
+            </p>
+            <div id="episodes-container">
+              {[
+                { title: "Sitcom", duration: 20 },
+                { title: "Puntata standard", duration: 40 },
+                { title: "Puntata lunga", duration: 60 },
+                { title: "Film", duration: 120 },
+              ].map((episode) => {
+                const selected = episode.duration === selectedDuration
+
+                return (
+                  <div
+                    key={episode.title}
+                    className={
+                      "episode" + toggleClass("episode-selected", selected)
+                    }
+                    onClick={() => setSelectedDuration(episode.duration)}
+                  >
+                    <div className="title">
+                      <span>{episode.title}</span>
+                    </div>
+                    <div className="duration">~ {episode.duration} minuti</div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>

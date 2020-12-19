@@ -55,6 +55,7 @@ h1 {
 .tv-watching .screen {
   background-color: #7ac8fa;
   color: #383838;
+  box-shadow: 0 0 6px 2px #addfff;
 }
 
 .tv .bottomBar {

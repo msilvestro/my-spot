@@ -32,11 +32,12 @@ const App: FC = () => {
 
   const updateWatching = async (duration: number) => {
     try {
-      const response = await firebase_api.put<boolean>(
+      const response = await firebase_api.put<number>(
         `users/${myId}/end_time.json`,
         Math.floor(Date.now() / 1000) + duration * 60
       )
-      console.log(response)
+      console.log(response.data)
+      getUsers()
     } catch (error) {
       console.log(error)
     }

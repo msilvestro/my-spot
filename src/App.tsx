@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
-import firebase_api from "./api/firebase_api"
 import { provider, auth, database } from "./firebase"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"

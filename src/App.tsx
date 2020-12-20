@@ -112,6 +112,10 @@ const App: FC = () => {
 
   const myId = Object.keys(users).find((id) => users[id].email === myEmail)
 
+  if (!myId) {
+    return <div className="App">Non sei autorizzato ad accedere!</div>
+  }
+
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>

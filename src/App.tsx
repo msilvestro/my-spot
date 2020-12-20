@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
 import firebase from "./api/firebase"
+
+import CollapsibleDiv from "./components/CollapsibleDiv"
 
 type Dictionary<T> = {
   [key: string]: T
@@ -12,11 +14,10 @@ type User = {
   end_time: number
 }
 
-const App: React.FC = () => {
+const App: FC = () => {
   const myId = "matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
-  const startWatchingSection = useRef<HTMLDivElement>(null)
 
   const getUsers = async () => {
     try {
@@ -62,12 +63,6 @@ const App: React.FC = () => {
 
   const toggleClass = (className = "selected", condition: boolean) => {
     return condition ? ` ${className}` : ""
-  }
-
-  const getStyle = () => {
-    return !isWatching(users[myId]) && startWatchingSection.current
-      ? { height: startWatchingSection.current.scrollHeight }
-      : { height: 0 }
   }
 
   return (
@@ -121,11 +116,9 @@ const App: React.FC = () => {
               Interrompi
             </button>
           )}
-          <div
+          <CollapsibleDiv
             id="start-watching"
-            ref={startWatchingSection}
-            className={toggleClass("collapsed", isWatching(users[myId]))}
-            style={getStyle()}
+            condition={!isWatching(users[myId])}
           >
             <p id="greetings">
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
@@ -155,7 +148,7 @@ const App: React.FC = () => {
                 )
               })}
             </div>
-          </div>
+          </CollapsibleDiv>
         </div>
       )}
     </div>

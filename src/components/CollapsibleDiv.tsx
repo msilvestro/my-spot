@@ -1,12 +1,15 @@
-import React, { useRef, FC, ReactNode } from "react"
+import React, { useRef, FC, ReactNode, HTMLAttributes } from "react"
 
-type Props = {
-  id: string
+type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode
   condition: boolean
 }
 
-const CollapsibleDiv: FC<Props> = ({ id, children, condition }: Props) => {
+const CollapsibleDiv: FC<Props> = ({
+  children,
+  condition,
+  ...otherProps
+}: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
 
   const getHeightStyle = () => {
@@ -16,7 +19,7 @@ const CollapsibleDiv: FC<Props> = ({ id, children, condition }: Props) => {
   }
 
   return (
-    <div id={id} ref={divRef} style={getHeightStyle()}>
+    <div ref={divRef} style={getHeightStyle()} {...otherProps}>
       {children}
     </div>
   )

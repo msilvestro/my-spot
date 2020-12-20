@@ -60,7 +60,7 @@ const App: FC = () => {
         {remainingMinutes > 0
           ? formatTime(remainingMinutes, "minutes")
           : null}{" "}
-        mancanti
+        mancant{remainingHours + remainingMinutes === 1 ? "e" : "i"}
       </p>
     )
   }

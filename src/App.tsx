@@ -40,34 +40,70 @@ const App: FC = () => {
     }
   }
 
-  const getRemaining = (
-    user: User,
-    type: "seconds" | "minutes" = "seconds"
-  ) => {
+  const getRemainingSeconds = (user: User) => {
     const remainingSeconds = user.end_time - Math.floor(Date.now() / 1000)
-    switch (type) {
-      case "seconds":
-        return remainingSeconds
-      case "minutes":
-        return Math.ceil(remainingSeconds / 60)
-    }
+    return remainingSeconds
   }
 
   const isWatching = (user: User) => {
-    return getRemaining(user, "seconds") > 0
+    return getRemainingSeconds(user) > 0
+  }
+
+  const formatTime = (amount: number, type: "minutes" | "hours") => {
+    const timeTranslation = {
+      minutes: ["minuto", "minuti"],
+      hours: ["ora", "ore"],
+    }
+    const [singular, plural] = timeTranslation[type]
+    return (
+      <>
+        <b>{amount}</b> {amount === 1 ? singular : plural}
+      </>
+    )
+  }
+
+  const getRemainingParagraph = (remainingSeconds: number) => {
+    const totalRemainingMinutes = Math.ceil(remainingSeconds / 60)
+    const remainingHours = Math.floor(totalRemainingMinutes / 60)
+    const remainingMinutes = totalRemainingMinutes - remainingHours * 60
+    return (
+      <p>
+        {remainingHours > 0 ? formatTime(remainingHours, "hours") : null}
+        {remainingMinutes > 0 && remainingHours > 0 ? " e " : null}
+        {remainingMinutes > 0
+          ? formatTime(remainingMinutes, "minutes")
+          : null}{" "}
+        mancanti
+      </p>
+    )
+  }
+
+  const toggleClass = (className = "selected", condition: boolean) => {
+    return condition ? ` ${className}` : ""
   }
 
   useEffect(() => {
     getUsers()
   })
 
-  const toggleClass = (className = "selected", condition: boolean) => {
-    return condition ? ` ${className}` : ""
-  }
+  const watchingCount = Object.values(users).filter((user) => isWatching(user))
+    .length
+  const maxWatchingCount = 2
 
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
+      <div id="watching-count">
+        <p>
+          <span
+            className={toggleClass("red", watchingCount > maxWatchingCount)}
+          >
+            {watchingCount}
+          </span>{" "}
+          / {maxWatchingCount}
+        </p>
+        <p>in uso</p>
+      </div>
       <div id="tvs-container">
         {Object.keys(users).map((userId) => {
           const user = users[userId]
@@ -90,11 +126,9 @@ const App: FC = () => {
               <div className="bottomBar">
                 <p>{watching ? watchingSentence : "non " + watchingSentence}</p>
 
-                {watching ? (
-                  <p>
-                    mancano <b>{getRemaining(user, "minutes")}</b> minuti
-                  </p>
-                ) : null}
+                {watching
+                  ? getRemainingParagraph(getRemainingSeconds(user))
+                  : null}
               </div>
             </div>
           )

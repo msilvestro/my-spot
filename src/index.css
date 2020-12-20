@@ -16,6 +16,18 @@ h1 {
   margin: 20px;
 }
 
+#watching-count p {
+  margin: 0;
+}
+
+#watching-count p:first-child {
+  font-size: 1.3em;
+}
+
+#watching-count .red {
+  color: red;
+}
+
 #tvs-container {
   display: flex;
   flex-wrap: wrap;
@@ -76,10 +88,6 @@ h1 {
 #start-watching {
   overflow: hidden;
   transition: height ease 1s;
-}
-
-.collapsed {
-  /*height: 0;*/
 }
 
 #episodes-container {

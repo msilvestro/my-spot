@@ -1,4 +1,11 @@
-import React, { useRef, FC, ReactNode, HTMLAttributes } from "react"
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  FC,
+  ReactNode,
+  HTMLAttributes,
+} from "react"
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode
@@ -11,15 +18,16 @@ const CollapsibleDiv: FC<Props> = ({
   ...otherProps
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState(0)
 
-  const getHeightStyle = () => {
-    return condition && divRef.current
-      ? { height: divRef.current.scrollHeight }
-      : { height: 0 }
-  }
+  useEffect(() => {
+    condition && divRef.current
+      ? setHeight(divRef.current.scrollHeight)
+      : setHeight(0)
+  }, [divRef, condition])
 
   return (
-    <div ref={divRef} style={getHeightStyle()} {...otherProps}>
+    <div ref={divRef} style={{ height }} {...otherProps}>
       {children}
     </div>
   )

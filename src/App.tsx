@@ -21,25 +21,10 @@ const App: FC = () => {
   const [selectedDuration, setSelectedDuration] = useState(0)
   const [userEmail, setUserEmail] = useState<undefined | null | string>(null)
 
-  const getUsers = async () => {
-    try {
-      const response = await firebase_api.get<Dictionary<User>>("users.json")
-      setUsers(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const updateWatching = async (duration: number) => {
-    try {
-      await firebase_api.put<number>(
-        `users/${myId}/end_time.json`,
-        Math.floor(Date.now() / 1000) + duration * 60
-      )
-      getUsers()
-    } catch (error) {
-      console.log(error)
-    }
+    database
+      .ref(`users/${myId}/end_time`)
+      .set(Math.floor(Date.now() / 1000) + duration * 60)
   }
 
   const getRemainingSeconds = (user: User) => {

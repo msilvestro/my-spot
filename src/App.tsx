@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
 import firebase_api from "./api/firebase_api"
-import firebase, { provider } from "./firebase"
+import { provider, auth, database } from "./firebase"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 
@@ -84,17 +84,19 @@ const App: FC = () => {
     return condition ? ` ${className}` : ""
   }
 
-  useEffect(() => {
-    getUsers()
-  }, [])
-
   const watchingCount = Object.values(users).filter((user) => isWatching(user))
     .length
   const maxWatchingCount = 2
 
-  firebase.auth().onAuthStateChanged((user) => {
-    setUserEmail(user?.email)
-  })
+  useEffect(() => {
+    database.ref("users").on("value", (snapshot) => {
+      const users = snapshot.val()
+      setUsers(users)
+    })
+    auth.onAuthStateChanged((user) => {
+      setUserEmail(user?.email)
+    })
+  }, [])
 
   if (userEmail === null) {
     return <div className="App">Loading...</div>
@@ -105,16 +107,13 @@ const App: FC = () => {
       <div className="App">
         <button
           onClick={() => {
-            firebase
-              .auth()
-              .signInWithPopup(provider)
-              .catch(function (error) {
-                // Handle Errors here.
-                console.log(error.code)
-                console.log(error.message)
-                // The email of the user's account used.
-                console.log(error.email)
-              })
+            auth.signInWithPopup(provider).catch(function (error) {
+              // Handle Errors here.
+              console.log(error.code)
+              console.log(error.message)
+              // The email of the user's account used.
+              console.log(error.email)
+            })
           }}
         >
           Login via Google

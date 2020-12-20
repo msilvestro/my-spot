@@ -18,8 +18,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
-
 firebase.auth().languageCode = "it"
-export const provider = new firebase.auth.GoogleAuthProvider()
 
-export default firebase
+export const provider = new firebase.auth.GoogleAuthProvider()
+export const auth = firebase.auth()
+export const database = firebase.database()

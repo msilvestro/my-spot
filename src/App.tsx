@@ -18,7 +18,8 @@ type User = {
 const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loadingAuth, setLoadingAuth] = useState(true)
+  const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
 
   const updateWatching = async (duration: number) => {
@@ -75,21 +76,23 @@ const App: FC = () => {
 
   useEffect(() => {
     database.ref("users").on("value", (snapshot) => {
+      setLoadingData(false)
       const users = snapshot.val()
       setUsers(users)
     })
     auth.onAuthStateChanged((user) => {
-      setLoading(false)
+      setLoadingAuth(false)
       if (user) {
         setMyEmail(user.email)
       }
     })
   }, [])
 
-  if (loading) {
+  if (loadingAuth) {
     return (
       <div className="App">
-        <div id="message">Loading...</div>
+        <h1>Sei seduto al mio posto!</h1>
+        <div>Sto controllando se sei autenticato...</div>
       </div>
     )
   }
@@ -117,12 +120,22 @@ const App: FC = () => {
     )
   }
 
+  if (loadingData) {
+    return (
+      <div className="App">
+        <h1>Sei seduto al mio posto!</h1>
+        <div>Caricamento in corso...</div>
+      </div>
+    )
+  }
+
   const myId = Object.keys(users).find((id) => users[id].email === myEmail)
 
   if (!myId) {
     return (
       <div className="App">
-        <div id="message">Non sei autorizzato ad accedere.</div>
+        <h1>Sei seduto al mio posto!</h1>
+        <div>Non sei autorizzato ad accedere.</div>
       </div>
     )
   }

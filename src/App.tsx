@@ -10,6 +10,7 @@ type Dictionary<T> = {
 }
 
 type User = {
+  email: string
   name: string
   end_time: number
 }
@@ -19,6 +20,7 @@ const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
   const [userEmail, setUserEmail] = useState<undefined | null | string>(null)
+  const [loading, setLoading] = useState(true)
 
   const updateWatching = async (duration: number) => {
     database
@@ -78,15 +80,16 @@ const App: FC = () => {
       setUsers(users)
     })
     auth.onAuthStateChanged((user) => {
+      setLoading(false)
       setUserEmail(user?.email)
     })
   }, [])
 
-  if (userEmail === null) {
+  if (loading) {
     return <div className="App">Loading...</div>
   }
 
-  if (userEmail === undefined) {
+  if (!userEmail) {
     return (
       <div className="App">
         <button

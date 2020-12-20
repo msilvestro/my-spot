@@ -87,25 +87,32 @@ const App: FC = () => {
   }, [])
 
   if (loading) {
-    return <div className="App">Loading...</div>
+    return (
+      <div className="App">
+        <div id="message">Loading...</div>
+      </div>
+    )
   }
 
   if (!myEmail) {
     return (
       <div className="App">
-        <button
-          onClick={() => {
-            auth.signInWithPopup(provider).catch(function (error) {
-              // Handle Errors here.
-              console.log(error.code)
-              console.log(error.message)
-              // The email of the user's account used.
-              console.log(error.email)
-            })
-          }}
-        >
-          Login via Google
-        </button>
+        <h1>Sei seduto al mio posto!</h1>
+        <div id="message">
+          <button
+            onClick={() => {
+              auth.signInWithPopup(provider).catch(function (error) {
+                // Handle Errors here.
+                console.log(error.code)
+                console.log(error.message)
+                // The email of the user's account used.
+                console.log(error.email)
+              })
+            }}
+          >
+            Login via Google
+          </button>
+        </div>
       </div>
     )
   }
@@ -113,7 +120,11 @@ const App: FC = () => {
   const myId = Object.keys(users).find((id) => users[id].email === myEmail)
 
   if (!myId) {
-    return <div className="App">Non sei autorizzato ad accedere!</div>
+    return (
+      <div className="App">
+        <div id="message">Non sei autorizzato ad accedere.</div>
+      </div>
+    )
   }
 
   return (

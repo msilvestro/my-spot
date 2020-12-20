@@ -19,9 +19,7 @@ const App: FC = () => {
   const myId = "matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
-  const [userEmail, setUserEmail] = useState<undefined | null | string>(
-    undefined
-  )
+  const [userEmail, setUserEmail] = useState<undefined | null | string>(null)
 
   const getUsers = async () => {
     try {
@@ -98,7 +96,11 @@ const App: FC = () => {
     setUserEmail(user?.email)
   })
 
-  if (!userEmail) {
+  if (userEmail === null) {
+    return <div className="App">Loading...</div>
+  }
+
+  if (userEmail === undefined) {
     return (
       <div className="App">
         <button
@@ -106,10 +108,6 @@ const App: FC = () => {
             firebase
               .auth()
               .signInWithPopup(provider)
-              .then(function (result) {
-                // The signed-in user info.
-                console.log(result.user?.displayName)
-              })
               .catch(function (error) {
                 // Handle Errors here.
                 console.log(error.code)

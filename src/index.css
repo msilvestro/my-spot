@@ -16,6 +16,10 @@ h1 {
   margin: 20px;
 }
 
+#message {
+  padding: 20px;
+}
+
 #watching-count p {
   margin: 0;
 }

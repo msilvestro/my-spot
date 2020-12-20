@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const firebase = axios.create({
-  baseURL: "https://my-spot-b5bc1-default-rtdb.firebaseio.com",
+  baseURL: process.env.REACT_APP_FIREBASE_URL,
 })
 
 export default firebase

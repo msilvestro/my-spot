@@ -1,7 +1,8 @@
 import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
-import firebase from "./api/firebase"
+import firebase_api from "./api/firebase_api"
+import firebase, { provider } from "./firebase"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 
@@ -18,10 +19,13 @@ const App: FC = () => {
   const myId = "matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
+  const [userEmail, setUserEmail] = useState<undefined | null | string>(
+    undefined
+  )
 
   const getUsers = async () => {
     try {
-      const response = await firebase.get<Dictionary<User>>("users.json")
+      const response = await firebase_api.get<Dictionary<User>>("users.json")
       setUsers(response.data)
     } catch (error) {
       console.log(error)
@@ -30,7 +34,7 @@ const App: FC = () => {
 
   const updateWatching = async (duration: number) => {
     try {
-      const response = await firebase.put<boolean>(
+      const response = await firebase_api.put<boolean>(
         `users/${myId}/end_time.json`,
         Math.floor(Date.now() / 1000) + duration * 60
       )
@@ -84,11 +88,42 @@ const App: FC = () => {
 
   useEffect(() => {
     getUsers()
-  })
+  }, [])
 
   const watchingCount = Object.values(users).filter((user) => isWatching(user))
     .length
   const maxWatchingCount = 2
+
+  firebase.auth().onAuthStateChanged((user) => {
+    setUserEmail(user?.email)
+  })
+
+  if (!userEmail) {
+    return (
+      <div className="App">
+        <button
+          onClick={() => {
+            firebase
+              .auth()
+              .signInWithPopup(provider)
+              .then(function (result) {
+                // The signed-in user info.
+                console.log(result.user?.displayName)
+              })
+              .catch(function (error) {
+                // Handle Errors here.
+                console.log(error.code)
+                console.log(error.message)
+                // The email of the user's account used.
+                console.log(error.email)
+              })
+          }}
+        >
+          Login via Google
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="App">

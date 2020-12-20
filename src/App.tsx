@@ -16,11 +16,10 @@ type User = {
 }
 
 const App: FC = () => {
-  const myId = "matteo"
   const [users, setUsers] = useState<Dictionary<User>>({})
   const [selectedDuration, setSelectedDuration] = useState(0)
-  const [userEmail, setUserEmail] = useState<undefined | null | string>(null)
   const [loading, setLoading] = useState(true)
+  const [myEmail, setMyEmail] = useState<null | string>(null)
 
   const updateWatching = async (duration: number) => {
     database
@@ -81,7 +80,9 @@ const App: FC = () => {
     })
     auth.onAuthStateChanged((user) => {
       setLoading(false)
-      setUserEmail(user?.email)
+      if (user) {
+        setMyEmail(user.email)
+      }
     })
   }, [])
 
@@ -89,7 +90,7 @@ const App: FC = () => {
     return <div className="App">Loading...</div>
   }
 
-  if (!userEmail) {
+  if (!myEmail) {
     return (
       <div className="App">
         <button
@@ -108,6 +109,8 @@ const App: FC = () => {
       </div>
     )
   }
+
+  const myId = Object.keys(users).find((id) => users[id].email === myEmail)
 
   return (
     <div className="App">
@@ -154,7 +157,7 @@ const App: FC = () => {
         })}
       </div>
 
-      {users[myId] && (
+      {myId && (
         <div>
           {!isWatching(users[myId]) ? (
             <button

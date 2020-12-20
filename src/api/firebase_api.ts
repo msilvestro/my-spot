@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const firebase = axios.create({
+const firebase_api = axios.create({
   baseURL: process.env.REACT_APP_FIREBASE_URL,
 })
 
-export default firebase
+export default firebase_api

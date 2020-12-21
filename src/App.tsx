@@ -12,7 +12,8 @@ type Dictionary<T> = {
 type User = {
   name: string
   end_time: number
-  emails: Array<string>
+  email: string
+  emailAlt?: string
 }
 
 const App: FC = () => {
@@ -129,8 +130,8 @@ const App: FC = () => {
     )
   }
 
-  const myId = Object.keys(users).find((id) =>
-    users[id].emails.includes(myEmail)
+  const myId = Object.keys(users).find(
+    (id) => users[id].email === myEmail || users[id].emailAlt === myEmail
   )
 
   if (!myId) {

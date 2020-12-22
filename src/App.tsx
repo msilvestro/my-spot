@@ -76,15 +76,15 @@ const App: FC = () => {
   const maxWatchingCount = 2
 
   useEffect(() => {
-    database.ref("users").on("value", (snapshot) => {
-      setLoadingData(false)
-      const users = snapshot.val()
-      setUsers(users)
-    })
     auth.onAuthStateChanged((user) => {
       setLoadingAuth(false)
       if (user) {
         setMyEmail(user.email)
+        database.ref("users").on("value", (snapshot) => {
+          setLoadingData(false)
+          const users = snapshot.val()
+          setUsers(users)
+        })
       }
     })
   }, [])

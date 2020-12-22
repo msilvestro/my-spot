@@ -22,15 +22,18 @@ const App: FC = () => {
   const [loadingAuth, setLoadingAuth] = useState(true)
   const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
+  const [time, setTime] = useState(Date.now())
+  console.log("render")
 
   const updateWatching = async (duration: number) => {
     database
       .ref(`users/${myId}/end_time`)
       .set(Math.floor(Date.now() / 1000) + duration * 60)
+    setTime(Date.now())
   }
 
   const getRemainingSeconds = (user: User) => {
-    const remainingSeconds = user.end_time - Math.floor(Date.now() / 1000)
+    const remainingSeconds = user.end_time - Math.floor(time / 1000)
     return remainingSeconds
   }
 
@@ -87,6 +90,10 @@ const App: FC = () => {
         })
       }
     })
+    const interval = setInterval(() => setTime(Date.now()), 1000 * 60)
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   if (loadingAuth) {

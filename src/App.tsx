@@ -23,7 +23,6 @@ const App: FC = () => {
   const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
   const [time, setTime] = useState(Date.now())
-  console.log("render")
 
   const updateWatching = async (duration: number) => {
     database
@@ -219,8 +218,8 @@ const App: FC = () => {
             </p>
             <div id="episodes-container">
               {[
-                { title: "Sitcom", duration: 20 },
-                { title: "Puntata standard", duration: 40 },
+                { title: "Sitcom", duration: 25 },
+                { title: "Puntata standard", duration: 45 },
                 { title: "Puntata lunga", duration: 60 },
                 { title: "Film", duration: 120 },
               ].map((episode) => {

@@ -4,6 +4,7 @@ If you are sharing one or more screens with multiple users (more than the number
 
 ## Start the web app
 
+- Configure the Firebase project.
 - Runs the app in the development mode:
   ```bash
   yarn start
@@ -18,7 +19,9 @@ If you are sharing one or more screens with multiple users (more than the number
     ```
   - Open your mobile browser at [http://localhost:3000](http://localhost:3000).
 
-## Configure Firebase Realtime Database
+## Firebase project configuration
+
+### Configure Firebase Realtime Database
 
 - The data should be structured like this:
 
@@ -54,3 +57,20 @@ If you are sharing one or more screens with multiple users (more than the number
   }
   ```
   so that every authenticated user can see the current situation, but each user can only modify its own watching status.
+
+### Add Firebase config object to the web app
+
+- Follow [this guide](https://firebase.google.com/docs/web/setup#config-object).
+- Copy the config object inside the file `src/firebase/firebaseConfig.ts` replacing `var` with `export const`, like this:
+  ```ts
+  export const firebaseConfig = {
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://PROJECT_ID.firebaseio.com",
+    projectId: "PROJECT_ID",
+    storageBucket: "PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID",
+    measurementId: "G-MEASUREMENT_ID",
+  }
+  ```

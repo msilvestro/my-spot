@@ -2,13 +2,18 @@ import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
 import { provider, auth, database } from "./firebase"
-import { User } from "./firebase/users"
+import { User, isWatching, setEndTime } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
+import TV from "./components/TV"
+
+import { toggleClass } from "./utils/css"
 
 type Dictionary<T> = {
   [key: string]: T
 }
+
+const MAX_WATCHING_COUNT = 2
 
 const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
@@ -19,58 +24,13 @@ const App: FC = () => {
   const [time, setTime] = useState(Date.now())
   const [customDuration, setCustomDuration] = useState(30)
 
-  const updateWatching = async (duration: number) => {
-    database
-      .ref(`users/${myId}/endTime`)
-      .set(Math.floor(Date.now() / 1000) + duration * 60)
-    setTime(Date.now())
+  const updateWatching = async (userId: string, duration: number) => {
+    setEndTime(userId, duration).then(() => setTime(Date.now()))
   }
 
-  const getRemainingSeconds = (user: User) => {
-    const remainingSeconds = user.endTime - Math.floor(time / 1000)
-    return remainingSeconds
-  }
-
-  const isWatching = (user: User) => {
-    return getRemainingSeconds(user) > 0
-  }
-
-  const formatTime = (amount: number, type: "minutes" | "hours") => {
-    const timeTranslation = {
-      minutes: ["minuto", "minuti"],
-      hours: ["ora", "ore"],
-    }
-    const [singular, plural] = timeTranslation[type]
-    return (
-      <>
-        <b>{amount}</b> {amount === 1 ? singular : plural}
-      </>
-    )
-  }
-
-  const getRemainingParagraph = (remainingSeconds: number) => {
-    const totalRemainingMinutes = Math.ceil(remainingSeconds / 60)
-    const remainingHours = Math.floor(totalRemainingMinutes / 60)
-    const remainingMinutes = totalRemainingMinutes - remainingHours * 60
-    return (
-      <p>
-        {remainingHours > 0 ? formatTime(remainingHours, "hours") : null}
-        {remainingMinutes > 0 && remainingHours > 0 ? " e " : null}
-        {remainingMinutes > 0
-          ? formatTime(remainingMinutes, "minutes")
-          : null}{" "}
-        mancant{remainingHours + remainingMinutes === 1 ? "e" : "i"}
-      </p>
-    )
-  }
-
-  const toggleClass = (className = "selected", condition: boolean) => {
-    return condition ? ` ${className}` : ""
-  }
-
-  const watchingCount = Object.values(users).filter((user) => isWatching(user))
-    .length
-  const maxWatchingCount = 2
+  const watchingCount = Object.values(users).filter((user) =>
+    isWatching(user, time)
+  ).length
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -150,63 +110,43 @@ const App: FC = () => {
       <div id="watching-count">
         <p>
           <span
-            className={toggleClass("red", watchingCount > maxWatchingCount)}
+            className={toggleClass("red", watchingCount > MAX_WATCHING_COUNT)}
           >
             {watchingCount}
           </span>{" "}
-          / {maxWatchingCount}
+          / {MAX_WATCHING_COUNT}
         </p>
         <p>in uso</p>
       </div>
       <div id="tvs-container">
-        {Object.keys(users).map((userId) => {
-          const user = users[userId]
-          const isMe = userId === myId
-          const watchingSentence = isMe ? "stai guardando" : "sta guardando"
-          const watching = isWatching(user)
-
-          return (
-            <div
-              key={user.name}
-              className={
-                "tv" +
-                toggleClass("tv-watching", watching) +
-                toggleClass("tv-mine", isMe)
-              }
-            >
-              <div className="screen">
-                <p>{isMe ? "Tu" : user.name}</p>
-              </div>
-              <div className="bottomBar">
-                <p>{watching ? watchingSentence : "non " + watchingSentence}</p>
-
-                {watching
-                  ? getRemainingParagraph(getRemainingSeconds(user))
-                  : null}
-              </div>
-            </div>
-          )
-        })}
+        {Object.keys(users).map((userId) => (
+          <TV
+            key={userId}
+            user={users[userId]}
+            isMe={userId === myId}
+            currentTime={time}
+          />
+        ))}
       </div>
 
       {myId && (
         <div>
-          {!isWatching(users[myId]) ? (
+          {!isWatching(users[myId], time) ? (
             <button
               id="start"
               disabled={selectedDuration === 0}
-              onClick={() => updateWatching(selectedDuration)}
+              onClick={() => updateWatching(myId, selectedDuration)}
             >
               Comincia a guardare
             </button>
           ) : (
-            <button id="stop" onClick={() => updateWatching(0)}>
+            <button id="stop" onClick={() => updateWatching(myId, 0)}>
               Interrompi
             </button>
           )}
           <CollapsibleDiv
             id="start-watching"
-            condition={!isWatching(users[myId])}
+            condition={!isWatching(users[myId], time)}
           >
             <p id="greetings">
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?

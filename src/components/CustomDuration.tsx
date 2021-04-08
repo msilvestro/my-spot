@@ -9,35 +9,39 @@ type Props = {
 
 const CustomDuration: FC<Props> = ({ selected, setSelected }: Props) => {
   const [customDuration, setCustomDuration] = useState(30)
+  const [configMode, setConfigMode] = useState(false)
 
   return (
     <>
-      <div
-        className={"episode" + toggleClass("episode-selected", selected)}
-        onClick={() => setSelected()}
-      >
-        <div className="title">
-          <span>Personalizzato</span>
+      {!configMode ? (
+        <div className={"episode" + toggleClass("episode-selected", selected)}>
+          <div className="title" onClick={() => setSelected()}>
+            <span>Personalizzato</span>
+          </div>
+          <div className="duration" onClick={() => setConfigMode(true)}>
+            ~ {customDuration} minuti
+          </div>
         </div>
-        <div className="duration">~ {customDuration} minuti</div>
-      </div>
-      <div className="episode-customizer">
-        <input
-          type="range"
-          min="1"
-          max="180"
-          value={customDuration}
-          onChange={(e) => setCustomDuration(parseInt(e.target.value))}
-        />
-        <input
-          type="number"
-          step="1"
-          min="1"
-          max="180"
-          value={customDuration}
-          onChange={(e) => setCustomDuration(parseInt(e.target.value))}
-        />
-      </div>
+      ) : (
+        <div className="episode-customizer">
+          <input
+            type="range"
+            min="1"
+            max="180"
+            value={customDuration}
+            onChange={(e) => setCustomDuration(parseInt(e.target.value))}
+          />
+          <input
+            type="number"
+            step="1"
+            min="1"
+            max="180"
+            value={customDuration}
+            onChange={(e) => setCustomDuration(parseInt(e.target.value))}
+          />
+          <button onClick={() => setConfigMode(false)}>Conferma</button>
+        </div>
+      )}
     </>
   )
 }

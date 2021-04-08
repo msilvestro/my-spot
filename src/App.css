@@ -2,10 +2,12 @@
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
+  padding: 20px;
 }
 
 h1 {
-  margin: 20px;
+  margin: 0;
+  margin-bottom: 20px;
 }
 
 #watching-count p {
@@ -20,10 +22,13 @@ h1 {
   color: red;
 }
 
+/* TVs section */
+
 #tvs-container {
-  padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .tv {
@@ -77,15 +82,55 @@ h1 {
   margin: 0;
 }
 
+/* Middle buttons */
+
+button {
+  padding: 20px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+#start {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  color: #e50914;
+  border-color: #e50914;
+}
+
+#start:disabled {
+  color: #757575;
+  border-color: #757575;
+}
+
+#stop {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #e50914;
+  color: white;
+  border-color: #e50914;
+}
+
 #start-watching {
   overflow: hidden;
   transition: height ease 1s;
 }
 
+/* Episode length selection */
+
+p#greetings {
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 #episodes-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  padding: 20px;
 }
 
 .episode {
@@ -109,10 +154,12 @@ h1 {
   font-weight: bold;
   color: #595959;
   flex: 1;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .episode-selected .title {
@@ -123,38 +170,4 @@ h1 {
   padding: 10px 20px;
   background-color: white;
   color: #595959;
-}
-
-button {
-  padding: 20px;
-  background-color: white;
-  color: black;
-  font-weight: bold;
-  border: 1px solid black;
-  border-radius: 8px;
-}
-
-#start {
-  margin: 20px;
-  width: calc(100% - 40px);
-  color: #e50914;
-  border-color: #e50914;
-}
-
-#start:disabled {
-  color: #757575;
-  border-color: #757575;
-}
-
-#stop {
-  margin: 20px;
-  width: calc(100% - 40px);
-  background-color: #e50914;
-  color: white;
-  border-color: #e50914;
-}
-
-p#greetings {
-  margin: 0;
-  margin-top: 10px;
 }

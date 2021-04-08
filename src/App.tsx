@@ -6,6 +6,7 @@ import { User, isWatching, setEndTime } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 import TV from "./components/TV"
+import CustomDuration from "./components/CustomDuration"
 
 import { toggleClass } from "./utils/css"
 
@@ -22,7 +23,6 @@ const App: FC = () => {
   const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
   const [time, setTime] = useState(Date.now())
-  const [customDuration, setCustomDuration] = useState(30)
 
   const updateWatching = async (userId: string, duration: number) => {
     setEndTime(userId, duration).then(() => setTime(Date.now()))
@@ -152,35 +152,10 @@ const App: FC = () => {
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
             </p>
             <div id="episodes-container">
-              <div
-                className={
-                  "episode" +
-                  toggleClass("episode-selected", selectedDuration === 0)
-                }
-                onClick={() => setSelectedDuration(0)}
-              >
-                <div className="title">
-                  <span>Personalizzato</span>
-                </div>
-                <div className="duration">~ {customDuration} minuti</div>
-              </div>
-              <div className="episode-customizer">
-                <input
-                  type="range"
-                  min="1"
-                  max="180"
-                  value={customDuration}
-                  onChange={(e) => setCustomDuration(parseInt(e.target.value))}
-                />
-                <input
-                  type="number"
-                  step="1"
-                  min="1"
-                  max="180"
-                  value={customDuration}
-                  onChange={(e) => setCustomDuration(parseInt(e.target.value))}
-                />
-              </div>
+              <CustomDuration
+                selected={selectedDuration === 0}
+                setSelected={() => setSelectedDuration(0)}
+              />
               {[
                 { title: "Sitcom", duration: 25 },
                 { title: "Puntata standard", duration: 45 },

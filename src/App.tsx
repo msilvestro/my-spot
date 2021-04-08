@@ -2,18 +2,12 @@ import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
 import { provider, auth, database } from "./firebase"
+import { User } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 
 type Dictionary<T> = {
   [key: string]: T
-}
-
-type User = {
-  name: string
-  end_time: number
-  email: string
-  emailAlt?: string
 }
 
 const App: FC = () => {
@@ -27,13 +21,13 @@ const App: FC = () => {
 
   const updateWatching = async (duration: number) => {
     database
-      .ref(`users/${myId}/end_time`)
+      .ref(`users/${myId}/endTime`)
       .set(Math.floor(Date.now() / 1000) + duration * 60)
     setTime(Date.now())
   }
 
   const getRemainingSeconds = (user: User) => {
-    const remainingSeconds = user.end_time - Math.floor(time / 1000)
+    const remainingSeconds = user.endTime - Math.floor(time / 1000)
     return remainingSeconds
   }
 

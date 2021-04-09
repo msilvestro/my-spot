@@ -1,0 +1,50 @@
+.tv {
+  display: flex;
+  flex-direction: column;
+  height: 180px;
+  margin: 2px;
+  border-radius: 8px;
+  background-color: #383838;
+  color: #d9dddc;
+  border: 1px solid #383838;
+}
+
+.tv-mine {
+  background-color: #d9dddc;
+  color: #383838;
+}
+
+.tv .screen {
+  text-transform: uppercase;
+  font-weight: bold;
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #787e7a;
+  color: #d9dddc;
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+.tv-watching .screen {
+  background-color: #7ac8fa;
+  color: #383838;
+  box-shadow: 0 0 6px 2px #addfff;
+}
+
+.tv .bottomBar {
+  padding: 10px 20px;
+  font-size: 0.8em;
+  line-height: 1.1em;
+  height: 2.2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tv .bottomBar p {
+  margin: 0;
+}

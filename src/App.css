@@ -22,64 +22,11 @@ h1 {
   color: red;
 }
 
-/* TVs section */
-
 #tvs-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.tv {
-  display: flex;
-  flex-direction: column;
-  height: 180px;
-  margin: 2px;
-  border-radius: 8px;
-  background-color: #383838;
-  color: #d9dddc;
-  border: 1px solid #383838;
-}
-
-.tv-mine {
-  background-color: #d9dddc;
-  color: #383838;
-}
-
-.tv .screen {
-  text-transform: uppercase;
-  font-weight: bold;
-  flex: 1;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #787e7a;
-  color: #d9dddc;
-  margin: 10px;
-  margin-bottom: 0;
-}
-
-.tv-watching .screen {
-  background-color: #7ac8fa;
-  color: #383838;
-  box-shadow: 0 0 6px 2px #addfff;
-}
-
-.tv .bottomBar {
-  padding: 10px 20px;
-  font-size: 0.8em;
-  line-height: 1.1em;
-  height: 2.2em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.tv .bottomBar p {
-  margin: 0;
 }
 
 /* Middle buttons */
@@ -120,7 +67,7 @@ button {
   transition: height ease 1s;
 }
 
-/* Episode length selection */
+/* Episode running time selection */
 
 p#greetings {
   margin: 0;
@@ -131,56 +78,4 @@ p#greetings {
 #episodes-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-}
-
-.episode-customizer {
-  border: 1px solid #595959;
-  display: flex;
-  flex-direction: column;
-  height: 120px;
-  margin: 2px;
-  border-radius: 8px;
-  overflow: hidden;
-  justify-content: center;
-  padding-right: 20px;
-  padding-left: 20px;
-}
-
-.episode {
-  border: 1px solid #595959;
-  background-color: #d9d9d9;
-  display: flex;
-  flex-direction: column;
-  height: 120px;
-  margin: 2px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.episode-selected {
-  border: 1px solid #e50914;
-  background-color: #e50914;
-}
-
-.episode .title {
-  text-transform: uppercase;
-  font-weight: bold;
-  color: #595959;
-  flex: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.episode-selected .title {
-  color: white;
-}
-
-.episode .runningTime {
-  padding: 10px 20px;
-  background-color: white;
-  color: #595959;
 }

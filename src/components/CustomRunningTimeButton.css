@@ -62,6 +62,10 @@
   border-width: 1px;
 }
 
+.episode-customizer .time-input-error {
+  border-color: red;
+}
+
 .episode-customizer button {
   padding: 0;
   height: 30px;

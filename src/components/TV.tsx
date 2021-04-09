@@ -1,4 +1,5 @@
 import React, { FC } from "react"
+import "./TV.css"
 
 import { User, isWatching } from "../firebase/users"
 

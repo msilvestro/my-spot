@@ -15,11 +15,39 @@ type Dictionary<T> = {
   [key: string]: T
 }
 
+enum EpisodeTitle {
+  Customized = "Personalizzato",
+  Sitcom = "Sitcom",
+  StandardEpisode = "Puntata standard",
+  LongEpisode = "Puntata lunga",
+  StandardMovie = "Film standard",
+  LongMovie = "Film lungo",
+}
+
+const getRunningTime = (episodeTitle: EpisodeTitle) => {
+  switch (episodeTitle) {
+    case EpisodeTitle.Sitcom:
+      return 25
+    case EpisodeTitle.StandardEpisode:
+      return 45
+    case EpisodeTitle.LongEpisode:
+      return 60
+    case EpisodeTitle.StandardMovie:
+      return 120
+    case EpisodeTitle.LongMovie:
+      return 180
+    case EpisodeTitle.Customized:
+      return 30
+  }
+}
+
 const MAX_WATCHING_COUNT = 2
 
 const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
-  const [selectedRunningTime, setSelectedRunningTime] = useState(0)
+  const [selectedEpisode, setSelectedEpisode] = useState(
+    EpisodeTitle.Customized
+  )
   const [loadingAuth, setLoadingAuth] = useState(true)
   const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
@@ -135,8 +163,9 @@ const App: FC = () => {
           {!isWatching(users[myId], time) ? (
             <button
               id="start"
-              disabled={selectedRunningTime === 0}
-              onClick={() => updateWatching(myId, selectedRunningTime)}
+              onClick={() =>
+                updateWatching(myId, getRunningTime(selectedEpisode))
+              }
             >
               Comincia a guardare
             </button>
@@ -154,24 +183,22 @@ const App: FC = () => {
             </p>
             <div id="episodes-container">
               <CustomRunningTimeButton
-                selected={selectedRunningTime === 0}
-                setSelected={() => setSelectedRunningTime(0)}
+                selected={selectedEpisode === EpisodeTitle.Customized}
+                setSelected={() => setSelectedEpisode(EpisodeTitle.Customized)}
               />
               {[
-                { title: "Sitcom", runningTime: 25 },
-                { title: "Puntata standard", runningTime: 45 },
-                { title: "Puntata lunga", runningTime: 60 },
-                { title: "Film standard", runningTime: 120 },
-                { title: "Film lungo", runningTime: 180 },
-              ].map((episode) => (
+                EpisodeTitle.Sitcom,
+                EpisodeTitle.StandardEpisode,
+                EpisodeTitle.LongEpisode,
+                EpisodeTitle.StandardMovie,
+                EpisodeTitle.LongMovie,
+              ].map((episodeTitle) => (
                 <RunningTimeButton
-                  key={episode.title}
-                  title={episode.title}
-                  runningTime={episode.runningTime}
-                  selected={episode.runningTime === selectedRunningTime}
-                  setSelected={() =>
-                    setSelectedRunningTime(episode.runningTime)
-                  }
+                  key={episodeTitle}
+                  title={episodeTitle}
+                  runningTime={getRunningTime(episodeTitle)}
+                  selected={episodeTitle === selectedEpisode}
+                  setSelected={() => setSelectedEpisode(episodeTitle)}
                 />
               ))}
             </div>

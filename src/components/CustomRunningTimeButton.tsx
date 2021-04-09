@@ -56,7 +56,7 @@ const CustomRunningTimeButton: FC<Props> = ({
             />
             <button
               onClick={() => {
-                if (runningTime > 1 && runningTime <= 180) {
+                if (runningTime >= 1 && runningTime <= 180) {
                   setIsInputInvalid(false)
                   setConfigMode(false)
                   updateRunningTime(runningTime)

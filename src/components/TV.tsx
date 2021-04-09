@@ -18,12 +18,14 @@ const formatTime = (amount: number, type: "minutes" | "hours") => {
   )
 }
 
-const beaufityTimeLeft = (user: User, currentTime: number) => {
-  const secondsLeft = user.endTime - Math.floor(currentTime / 1000)
-  const totalMinutesLeft = Math.ceil(secondsLeft / 60)
-  const hoursLeft = Math.floor(totalMinutesLeft / 60)
-  const minutesLeft = totalMinutesLeft - hoursLeft * 60
-  return { hoursLeft, minutesLeft }
+const beaufityTimeDiff = (user: User, currentTime: number) => {
+  const sign = Math.sign(user.endTime - Math.floor(currentTime / 1000))
+  const secondsDiff = Math.abs(user.endTime - Math.floor(currentTime / 1000))
+  const totalMinutesDiff =
+    sign > 0 ? Math.ceil(secondsDiff / 60) : Math.floor(secondsDiff / 60)
+  const hoursDiff = Math.floor(totalMinutesDiff / 60)
+  const minutesDiff = totalMinutesDiff - hoursDiff * 60
+  return { sign, hoursDiff, minutesDiff }
 }
 
 type Props = {
@@ -35,7 +37,7 @@ type Props = {
 const TV: FC<Props> = ({ user, isMe, currentTime }: Props) => {
   const watchingSentence = isMe ? "stai guardando" : "sta guardando"
   const watching = isWatching(user, currentTime)
-  const { hoursLeft, minutesLeft } = beaufityTimeLeft(user, currentTime)
+  const { sign, hoursDiff, minutesDiff } = beaufityTimeDiff(user, currentTime)
 
   return (
     <div
@@ -54,10 +56,13 @@ const TV: FC<Props> = ({ user, isMe, currentTime }: Props) => {
 
         {watching ? (
           <p>
-            {hoursLeft > 0 ? formatTime(hoursLeft, "hours") : null}
-            {minutesLeft > 0 && hoursLeft > 0 ? " e " : null}
-            {minutesLeft > 0 ? formatTime(minutesLeft, "minutes") : null}{" "}
-            mancant{hoursLeft + minutesLeft === 1 ? "e" : "i"}
+            {sign <= 0 && "finito "}
+            {hoursDiff > 0 ? formatTime(hoursDiff, "hours") : null}
+            {minutesDiff > 0 && hoursDiff > 0 ? " e " : null}
+            {minutesDiff >= 0 ? formatTime(minutesDiff, "minutes") : null}{" "}
+            {sign > 0
+              ? `mancant${hoursDiff + minutesDiff === 1 ? "e" : "i"}`
+              : "fa"}
           </p>
         ) : null}
       </div>

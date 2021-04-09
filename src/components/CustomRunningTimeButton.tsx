@@ -19,6 +19,7 @@ const CustomRunningTimeButton: FC<Props> = ({
 }: Props) => {
   const [runningTime, setRunningTime] = useState(defaultRunningTime)
   const [configMode, setConfigMode] = useState(false)
+  const [isInputInvalid, setIsInputInvalid] = useState(false)
 
   return (
     <>
@@ -43,7 +44,9 @@ const CustomRunningTimeButton: FC<Props> = ({
           />
           <div className="bottom-part">
             <input
-              className="time-input"
+              className={
+                "time-input" + toggleClass("time-input-error", isInputInvalid)
+              }
               type="number"
               step="1"
               min="1"
@@ -53,8 +56,13 @@ const CustomRunningTimeButton: FC<Props> = ({
             />
             <button
               onClick={() => {
-                setConfigMode(false)
-                updateRunningTime(runningTime)
+                if (runningTime > 1 && runningTime <= 180) {
+                  setIsInputInvalid(false)
+                  setConfigMode(false)
+                  updateRunningTime(runningTime)
+                } else {
+                  setIsInputInvalid(true)
+                }
               }}
             >
               ✔️

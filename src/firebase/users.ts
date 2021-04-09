@@ -6,6 +6,7 @@ export type User = {
   email: string
   emailAlt?: string
   customRunningTime?: number
+  infiniteWatching?: boolean
 }
 
 export const isWatching = (user: User, currentTime: number): boolean => {
@@ -27,4 +28,11 @@ export const updateCustomRunningTime = async (
   runningTime: number
 ): Promise<void> => {
   database.ref(`users/${userId}/customRunningTime`).set(runningTime)
+}
+
+export const updateInfiniteWatching = async (
+  userId: string,
+  infiniteWatching: boolean
+): Promise<void> => {
+  database.ref(`users/${userId}/infiniteWatching`).set(infiniteWatching)
 }

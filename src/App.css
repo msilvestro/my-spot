@@ -79,3 +79,7 @@ p#greetings {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
+
+#bottom-settings {
+  margin-top: 20px;
+}

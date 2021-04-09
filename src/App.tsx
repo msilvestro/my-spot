@@ -215,6 +215,17 @@ const App: FC = () => {
           </CollapsibleDiv>
         </div>
       )}
+      <div id="bottom-settings">
+        <input
+          type="checkbox"
+          name="infinite-watching"
+          value="infinite-watching"
+        />
+        <label htmlFor="infinite-watching">
+          {" "}
+          Quando l&apos;episodio è finito, non interrompere la visione
+        </label>
+      </div>
     </div>
   )
 }

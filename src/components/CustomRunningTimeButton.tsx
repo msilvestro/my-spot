@@ -24,27 +24,31 @@ const CustomRunningTimeButton: FC<Props> = ({
             <span>Personalizzato</span>
           </div>
           <div className="runningTime" onClick={() => setConfigMode(true)}>
-            ~ {runningTime} minuti
+            ⚙️ {runningTime} minuti
           </div>
         </div>
       ) : (
         <div className="episode-customizer">
           <input
+            className="time-slider"
             type="range"
             min="1"
             max="180"
             value={runningTime}
             onChange={(e) => setRunningTime(parseInt(e.target.value))}
           />
-          <input
-            type="number"
-            step="1"
-            min="1"
-            max="180"
-            value={runningTime}
-            onChange={(e) => setRunningTime(parseInt(e.target.value))}
-          />
-          <button onClick={() => setConfigMode(false)}>Conferma</button>
+          <div className="bottom-part">
+            <input
+              className="time-input"
+              type="number"
+              step="1"
+              min="1"
+              max="180"
+              value={runningTime}
+              onChange={(e) => setRunningTime(parseInt(e.target.value))}
+            />
+            <button onClick={() => setConfigMode(false)}>✔️</button>
+          </div>
         </div>
       )}
     </>

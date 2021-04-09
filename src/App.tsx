@@ -7,6 +7,7 @@ import {
   isWatching,
   updateEndTime,
   updateCustomRunningTime,
+  updateInfiniteWatching,
 } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
@@ -219,11 +220,12 @@ const App: FC = () => {
         <input
           type="checkbox"
           name="infinite-watching"
-          value="infinite-watching"
+          checked={users[myId].infiniteWatching}
+          onChange={(e) => updateInfiniteWatching(myId, e.target.checked)}
         />
         <label htmlFor="infinite-watching">
           {" "}
-          Quando l&apos;episodio è finito, non interrompere la visione
+          Quando l&apos;episodio è finito, non interrompere la mia prenotazione
         </label>
       </div>
     </div>

@@ -5,7 +5,7 @@ If you are sharing one or more screens with multiple users (more than the number
 ## Start the web app
 
 - Configure the Firebase project.
-- Runs the app in the development mode:
+- Run the app in the development mode:
   ```bash
   yarn start
   ```
@@ -74,3 +74,19 @@ If you are sharing one or more screens with multiple users (more than the number
     measurementId: "G-MEASUREMENT_ID",
   }
   ```
+
+## Deploy
+
+- Build the app:
+  ```bash
+  yarn build
+  ```
+- Test, preview, deploy on Firebase (https://firebase.google.com/docs/hosting/test-preview-deploy):
+  - Create a preview version online to check that everything is alright (replace `CHANNEL_ID`):
+    ```bash
+    firebase hosting:channel:deploy CHANNEL_ID
+    ```
+  - Deploy live with a message:
+    ```bash
+    firebase deploy --only hosting -m "Deploying the best new feature ever."
+    ```

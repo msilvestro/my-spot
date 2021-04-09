@@ -10,17 +10,20 @@ export type User = {
 }
 
 export const isWatching = (user: User, currentTime: number): boolean => {
+  if (!user.endTime) {
+    return false
+  }
   const secondsLeft = user.endTime - Math.floor(currentTime / 1000)
   return user.infiniteWatching || secondsLeft > 0
 }
 
 export const updateEndTime = async (
   userId: string,
-  duration: number
+  duration: number | null
 ): Promise<void> => {
   database
     .ref(`users/${userId}/endTime`)
-    .set(Math.floor(Date.now() / 1000) + duration * 60)
+    .set(duration ? Math.floor(Date.now() / 1000) + duration * 60 : null)
 }
 
 export const updateCustomRunningTime = async (

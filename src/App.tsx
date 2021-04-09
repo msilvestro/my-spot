@@ -43,7 +43,7 @@ const App: FC = () => {
   const [myEmail, setMyEmail] = useState<null | string>(null)
   const [time, setTime] = useState(Date.now())
 
-  const updateWatching = async (userId: string, runningTime: number) => {
+  const updateWatching = async (userId: string, runningTime: number | null) => {
     updateEndTime(userId, runningTime).then(() => setTime(Date.now()))
   }
 
@@ -177,7 +177,7 @@ const App: FC = () => {
               Comincia a guardare
             </button>
           ) : (
-            <button id="stop" onClick={() => updateWatching(myId, 0)}>
+            <button id="stop" onClick={() => updateWatching(myId, null)}>
               Interrompi
             </button>
           )}

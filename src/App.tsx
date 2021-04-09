@@ -2,7 +2,12 @@ import React, { useState, useEffect, FC } from "react"
 import "./App.css"
 
 import { provider, auth, database } from "./firebase"
-import { User, isWatching, setEndTime } from "./firebase/users"
+import {
+  User,
+  isWatching,
+  updateEndTime,
+  updateCustomRunningTime,
+} from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 import TV from "./components/TV"
@@ -24,24 +29,8 @@ enum EpisodeTitle {
   LongMovie = "Film lungo",
 }
 
-const getRunningTime = (episodeTitle: EpisodeTitle) => {
-  switch (episodeTitle) {
-    case EpisodeTitle.Sitcom:
-      return 25
-    case EpisodeTitle.StandardEpisode:
-      return 45
-    case EpisodeTitle.LongEpisode:
-      return 60
-    case EpisodeTitle.StandardMovie:
-      return 120
-    case EpisodeTitle.LongMovie:
-      return 180
-    case EpisodeTitle.Customized:
-      return 30
-  }
-}
-
 const MAX_WATCHING_COUNT = 2
+const DEFAULT_CUSTOMIZED_RUNNING_TIME = 30
 
 const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
@@ -54,7 +43,7 @@ const App: FC = () => {
   const [time, setTime] = useState(Date.now())
 
   const updateWatching = async (userId: string, runningTime: number) => {
-    setEndTime(userId, runningTime).then(() => setTime(Date.now()))
+    updateEndTime(userId, runningTime).then(() => setTime(Date.now()))
   }
 
   const watchingCount = Object.values(users).filter((user) =>
@@ -133,6 +122,23 @@ const App: FC = () => {
     )
   }
 
+  const getRunningTime = (episodeTitle: EpisodeTitle) => {
+    switch (episodeTitle) {
+      case EpisodeTitle.Sitcom:
+        return 25
+      case EpisodeTitle.StandardEpisode:
+        return 45
+      case EpisodeTitle.LongEpisode:
+        return 60
+      case EpisodeTitle.StandardMovie:
+        return 120
+      case EpisodeTitle.LongMovie:
+        return 180
+      case EpisodeTitle.Customized:
+        return users[myId].customRunningTime || DEFAULT_CUSTOMIZED_RUNNING_TIME
+    }
+  }
+
   return (
     <div className="App">
       <h1>Sei seduto al mio posto!</h1>
@@ -185,6 +191,10 @@ const App: FC = () => {
               <CustomRunningTimeButton
                 selected={selectedEpisode === EpisodeTitle.Customized}
                 setSelected={() => setSelectedEpisode(EpisodeTitle.Customized)}
+                defaultRunningTime={getRunningTime(EpisodeTitle.Customized)}
+                updateRunningTime={(runningTime) =>
+                  updateCustomRunningTime(myId, runningTime)
+                }
               />
               {[
                 EpisodeTitle.Sitcom,

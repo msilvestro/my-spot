@@ -7,13 +7,17 @@ import { toggleClass } from "../utils/css"
 type Props = {
   selected: boolean
   setSelected(): void
+  defaultRunningTime: number
+  updateRunningTime(runningTime: number): void
 }
 
 const CustomRunningTimeButton: FC<Props> = ({
   selected,
   setSelected,
+  defaultRunningTime,
+  updateRunningTime,
 }: Props) => {
-  const [runningTime, setRunningTime] = useState(30)
+  const [runningTime, setRunningTime] = useState(defaultRunningTime)
   const [configMode, setConfigMode] = useState(false)
 
   return (
@@ -47,7 +51,14 @@ const CustomRunningTimeButton: FC<Props> = ({
               value={runningTime}
               onChange={(e) => setRunningTime(parseInt(e.target.value))}
             />
-            <button onClick={() => setConfigMode(false)}>✔️</button>
+            <button
+              onClick={() => {
+                setConfigMode(false)
+                updateRunningTime(runningTime)
+              }}
+            >
+              ✔️
+            </button>
           </div>
         </div>
       )}

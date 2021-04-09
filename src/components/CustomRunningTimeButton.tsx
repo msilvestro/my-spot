@@ -3,6 +3,7 @@ import "./RunningTimeButton.css"
 import "./CustomRunningTimeButton.css"
 
 import { toggleClass } from "../utils/css"
+import { declineTime } from "../utils/time"
 
 type Props = {
   selected: boolean
@@ -29,7 +30,7 @@ const CustomRunningTimeButton: FC<Props> = ({
             <span>Personalizzato</span>
           </div>
           <div className="runningTime" onClick={() => setConfigMode(true)}>
-            ⚙️ {runningTime} minuti
+            ⚙️ {runningTime} {declineTime(runningTime, "minutes")}
           </div>
         </div>
       ) : (

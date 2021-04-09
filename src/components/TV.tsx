@@ -4,16 +4,12 @@ import "./TV.css"
 import { User, isWatching } from "../firebase/users"
 
 import { toggleClass } from "../utils/css"
+import { declineTime } from "../utils/time"
 
 const formatTime = (amount: number, type: "minutes" | "hours") => {
-  const timeTranslation = {
-    minutes: ["minuto", "minuti"],
-    hours: ["ora", "ore"],
-  }
-  const [singular, plural] = timeTranslation[type]
   return (
     <>
-      <b>{amount}</b> {amount === 1 ? singular : plural}
+      <b>{amount}</b> {declineTime(amount, type)}
     </>
   )
 }

@@ -2,6 +2,7 @@ import React, { FC } from "react"
 import "./RunningTimeButton.css"
 
 import { toggleClass } from "../utils/css"
+import { declineTime } from "../utils/time"
 
 type Props = {
   title: string
@@ -24,7 +25,9 @@ const RunningTimeButton: FC<Props> = ({
       <div className="title">
         <span>{title}</span>
       </div>
-      <div className="runningTime">~ {runningTime} minuti</div>
+      <div className="runningTime">
+        ~ {runningTime} {declineTime(runningTime, "minutes")}
+      </div>
     </div>
   )
 }

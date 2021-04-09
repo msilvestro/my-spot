@@ -6,7 +6,8 @@ import { User, isWatching, setEndTime } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
 import TV from "./components/TV"
-import CustomDuration from "./components/CustomDuration"
+import RunningTimeButton from "./components/RunningTimeButton"
+import CustomRunningTimeButton from "./components/CustomRunningTimeButton"
 
 import { toggleClass } from "./utils/css"
 
@@ -18,14 +19,14 @@ const MAX_WATCHING_COUNT = 2
 
 const App: FC = () => {
   const [users, setUsers] = useState<Dictionary<User>>({})
-  const [selectedDuration, setSelectedDuration] = useState(0)
+  const [selectedRunningTime, setSelectedRunningTime] = useState(0)
   const [loadingAuth, setLoadingAuth] = useState(true)
   const [loadingData, setLoadingData] = useState(true)
   const [myEmail, setMyEmail] = useState<null | string>(null)
   const [time, setTime] = useState(Date.now())
 
-  const updateWatching = async (userId: string, duration: number) => {
-    setEndTime(userId, duration).then(() => setTime(Date.now()))
+  const updateWatching = async (userId: string, runningTime: number) => {
+    setEndTime(userId, runningTime).then(() => setTime(Date.now()))
   }
 
   const watchingCount = Object.values(users).filter((user) =>
@@ -134,8 +135,8 @@ const App: FC = () => {
           {!isWatching(users[myId], time) ? (
             <button
               id="start"
-              disabled={selectedDuration === 0}
-              onClick={() => updateWatching(myId, selectedDuration)}
+              disabled={selectedRunningTime === 0}
+              onClick={() => updateWatching(myId, selectedRunningTime)}
             >
               Comincia a guardare
             </button>
@@ -152,34 +153,27 @@ const App: FC = () => {
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
             </p>
             <div id="episodes-container">
-              <CustomDuration
-                selected={selectedDuration === 0}
-                setSelected={() => setSelectedDuration(0)}
+              <CustomRunningTimeButton
+                selected={selectedRunningTime === 0}
+                setSelected={() => setSelectedRunningTime(0)}
               />
               {[
-                { title: "Sitcom", duration: 25 },
-                { title: "Puntata standard", duration: 45 },
-                { title: "Puntata lunga", duration: 60 },
-                { title: "Film standard", duration: 120 },
-                { title: "Film lungo", duration: 180 },
-              ].map((episode) => {
-                const selected = episode.duration === selectedDuration
-
-                return (
-                  <div
-                    key={episode.title}
-                    className={
-                      "episode" + toggleClass("episode-selected", selected)
-                    }
-                    onClick={() => setSelectedDuration(episode.duration)}
-                  >
-                    <div className="title">
-                      <span>{episode.title}</span>
-                    </div>
-                    <div className="duration">~ {episode.duration} minuti</div>
-                  </div>
-                )
-              })}
+                { title: "Sitcom", runningTime: 25 },
+                { title: "Puntata standard", runningTime: 45 },
+                { title: "Puntata lunga", runningTime: 60 },
+                { title: "Film standard", runningTime: 120 },
+                { title: "Film lungo", runningTime: 180 },
+              ].map((episode) => (
+                <RunningTimeButton
+                  key={episode.title}
+                  title={episode.title}
+                  runningTime={episode.runningTime}
+                  selected={episode.runningTime === selectedRunningTime}
+                  setSelected={() =>
+                    setSelectedRunningTime(episode.runningTime)
+                  }
+                />
+              ))}
             </div>
           </CollapsibleDiv>
         </div>

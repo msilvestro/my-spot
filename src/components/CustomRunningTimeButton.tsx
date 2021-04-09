@@ -7,8 +7,11 @@ type Props = {
   setSelected(): void
 }
 
-const CustomDuration: FC<Props> = ({ selected, setSelected }: Props) => {
-  const [customDuration, setCustomDuration] = useState(30)
+const CustomRunningTimeButton: FC<Props> = ({
+  selected,
+  setSelected,
+}: Props) => {
+  const [runningTime, setRunningTime] = useState(30)
   const [configMode, setConfigMode] = useState(false)
 
   return (
@@ -18,8 +21,8 @@ const CustomDuration: FC<Props> = ({ selected, setSelected }: Props) => {
           <div className="title" onClick={() => setSelected()}>
             <span>Personalizzato</span>
           </div>
-          <div className="duration" onClick={() => setConfigMode(true)}>
-            ~ {customDuration} minuti
+          <div className="runningTime" onClick={() => setConfigMode(true)}>
+            ~ {runningTime} minuti
           </div>
         </div>
       ) : (
@@ -28,16 +31,16 @@ const CustomDuration: FC<Props> = ({ selected, setSelected }: Props) => {
             type="range"
             min="1"
             max="180"
-            value={customDuration}
-            onChange={(e) => setCustomDuration(parseInt(e.target.value))}
+            value={runningTime}
+            onChange={(e) => setRunningTime(parseInt(e.target.value))}
           />
           <input
             type="number"
             step="1"
             min="1"
             max="180"
-            value={customDuration}
-            onChange={(e) => setCustomDuration(parseInt(e.target.value))}
+            value={runningTime}
+            onChange={(e) => setRunningTime(parseInt(e.target.value))}
           />
           <button onClick={() => setConfigMode(false)}>Conferma</button>
         </div>
@@ -46,4 +49,4 @@ const CustomDuration: FC<Props> = ({ selected, setSelected }: Props) => {
   )
 }
 
-export default CustomDuration
+export default CustomRunningTimeButton

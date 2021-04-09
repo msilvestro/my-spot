@@ -11,7 +11,7 @@ export type User = {
 
 export const isWatching = (user: User, currentTime: number): boolean => {
   const secondsLeft = user.endTime - Math.floor(currentTime / 1000)
-  return secondsLeft > 0
+  return user.infiniteWatching || secondsLeft > 0
 }
 
 export const updateEndTime = async (

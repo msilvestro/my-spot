@@ -20,7 +20,7 @@
   opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
-  border-radius: 8px;
+  border-radius: 30px;
 }
 
 .episode-customizer .time-slider:hover {
@@ -34,15 +34,15 @@
   height: 30px;
   background: #e50914;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 15px;
 }
 
 .episode-customizer .time-slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background: #e50914;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 13px;
 }
 
 .episode-customizer .bottom-part {

@@ -226,8 +226,8 @@ const App: FC = () => {
             }
             updateinfiniteReservation(myId, checked)
           }}
-          label="Quando l'episodio è finito, non interrompere la mia
-              prenotazione"
+          title="Prenotazione illimitata"
+          description="Continua la prenotazione finché non decidi di interromperla"
         />
       </div>
     </div>

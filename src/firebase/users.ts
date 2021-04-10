@@ -2,11 +2,11 @@ import { database } from "."
 
 export type User = {
   name: string
-  endTime?: number
+  endTime?: number | null
   email: string
   emailAlt?: string
   customRunningTime?: number
-  infiniteWatching?: boolean
+  infiniteReservation?: boolean
 }
 
 export const isWatching = (user: User, currentTime: number): boolean => {
@@ -14,7 +14,7 @@ export const isWatching = (user: User, currentTime: number): boolean => {
     return false
   }
   const secondsLeft = user.endTime - Math.floor(currentTime / 1000)
-  return user.infiniteWatching || secondsLeft > 0
+  return user.infiniteReservation || secondsLeft > 0
 }
 
 export const updateEndTime = async (
@@ -33,9 +33,9 @@ export const updateCustomRunningTime = async (
   database.ref(`users/${userId}/customRunningTime`).set(runningTime)
 }
 
-export const updateInfiniteWatching = async (
+export const updateinfiniteReservation = async (
   userId: string,
-  infiniteWatching: boolean
+  infiniteReservation: boolean
 ): Promise<void> => {
-  database.ref(`users/${userId}/infiniteWatching`).set(infiniteWatching)
+  database.ref(`users/${userId}/infiniteReservation`).set(infiniteReservation)
 }

@@ -72,5 +72,11 @@
   width: 30px;
   margin-left: 10px;
   border-radius: 15px;
+  border-color: #e50914;
   background-color: #e50914;
+}
+
+.episode-customizer button:disabled {
+  background-color: #d9d9d9;
+  border-color: #757575;
 }

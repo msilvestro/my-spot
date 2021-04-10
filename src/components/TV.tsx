@@ -55,13 +55,14 @@ const TV: FC<Props> = ({ user, isMe, currentTime }: Props) => {
 
         {watching ? (
           <p>
-            {sign <= 0 && "finito "}
+            {sign <= 0 && "fine stimata "}
             {hoursDiff > 0 ? formatTime(hoursDiff, "hours") : null}
             {minutesDiff > 0 && hoursDiff > 0 ? " e " : null}
-            {minutesDiff >= 0 ? formatTime(minutesDiff, "minutes") : null}{" "}
+            {minutesDiff > 0 ? formatTime(minutesDiff, "minutes") : null}
+            {hoursDiff === 0 && minutesDiff === 0 && "un attimo"}
             {sign > 0
-              ? `mancant${hoursDiff + minutesDiff === 1 ? "e" : "i"}`
-              : "fa"}
+              ? ` mancant${hoursDiff + minutesDiff === 1 ? "e" : "i"}`
+              : " fa"}
           </p>
         ) : null}
       </div>

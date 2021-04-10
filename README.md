@@ -6,7 +6,7 @@ If you are sharing one or more screens with multiple users (more than the number
 
 - Configure the Firebase project.
 - Run the app in the development mode:
-  ```bash
+  ```sh
   yarn start
   ```
 - The web browser should automatically open at [http://localhost:3000](http://localhost:3000).
@@ -75,18 +75,20 @@ If you are sharing one or more screens with multiple users (more than the number
   }
   ```
 
-## Deploy
+## Release and deploy
 
-- Build the app:
-  ```bash
-  yarn build
+- Bump version, tag release and build (with one the following commands):
+  ```sh
+  yarn version --patch
+  yarn version --minor
+  yarn version --major
   ```
 - Test, preview, deploy on Firebase (https://firebase.google.com/docs/hosting/test-preview-deploy):
   - Create a preview version online to check that everything is alright (replace `CHANNEL_ID`):
-    ```bash
+    ```sh
     firebase hosting:channel:deploy CHANNEL_ID
     ```
   - Deploy live with a message:
-    ```bash
-    firebase deploy --only hosting -m "Deploying the best new feature ever."
+    ```sh
+    yarn deploy -m "Deploying the best new feature ever."
     ```

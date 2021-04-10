@@ -15,6 +15,9 @@ const formatTime = (amount: number, type: "minutes" | "hours") => {
 }
 
 const beaufityTimeDiff = (user: User, currentTime: number) => {
+  if (!user.endTime) {
+    return { sign: 0, hoursDiff: 0, minutesDiff: 0 }
+  }
   const sign = Math.sign(user.endTime - Math.floor(currentTime / 1000))
   const secondsDiff = Math.abs(user.endTime - Math.floor(currentTime / 1000))
   const totalMinutesDiff =

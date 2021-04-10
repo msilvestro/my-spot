@@ -24,6 +24,11 @@ const CustomRunningTimeButton: FC<Props> = ({
   const [configMode, setConfigMode] = useState(false)
   const [isInputInvalid, setIsInputInvalid] = useState(false)
 
+  const handleRunningTimeChange = (value: string) => {
+    setIsInputInvalid(false)
+    setRunningTime(parseInt(value))
+  }
+
   return (
     <>
       {!configMode ? (
@@ -43,10 +48,7 @@ const CustomRunningTimeButton: FC<Props> = ({
             min="1"
             max="180"
             value={runningTime}
-            onChange={(e) => {
-              setIsInputInvalid(false)
-              setRunningTime(parseInt(e.target.value))
-            }}
+            onChange={(e) => handleRunningTimeChange(e.target.value)}
           />
           <div className="bottom-part">
             <input
@@ -58,10 +60,7 @@ const CustomRunningTimeButton: FC<Props> = ({
               min="1"
               max="180"
               value={runningTime}
-              onChange={(e) => {
-                setIsInputInvalid(false)
-                setRunningTime(parseInt(e.target.value))
-              }}
+              onChange={(e) => handleRunningTimeChange(e.target.value)}
             />
             <button
               disabled={isInputInvalid}

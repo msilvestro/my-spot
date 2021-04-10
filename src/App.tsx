@@ -14,6 +14,7 @@ import CollapsibleDiv from "./components/CollapsibleDiv"
 import TV from "./components/TV"
 import RunningTimeButton from "./components/RunningTimeButton"
 import CustomRunningTimeButton from "./components/CustomRunningTimeButton"
+import CustomSwitch from "./components/CustomSwitch"
 
 import { toggleClass } from "./utils/css"
 
@@ -217,22 +218,17 @@ const App: FC = () => {
         </div>
       )}
       <div id="bottom-settings">
-        <input
-          type="checkbox"
-          name="infinite-reservation"
-          checked={users[myId].infiniteReservation}
-          onChange={(e) => {
-            const checked = e.target.checked
+        <CustomSwitch
+          checked={users[myId].infiniteReservation === true}
+          onChange={(checked) => {
             if (!isWatching(users[myId], time) && users[myId].endTime) {
               updateWatching(myId, null)
             }
             updateinfiniteReservation(myId, checked)
           }}
+          label="Quando l'episodio è finito, non interrompere la mia
+              prenotazione"
         />
-        <label htmlFor="infinite-reservation">
-          {" "}
-          Quando l&apos;episodio è finito, non interrompere la mia prenotazione
-        </label>
       </div>
     </div>
   )

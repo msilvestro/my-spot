@@ -155,7 +155,10 @@ const App: FC = () => {
         </p>
         <p>in uso</p>
       </div>
-      <div id="tvs-container">
+      <div
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+        className="grid-container"
+      >
         {Object.keys(users).map((userId) => (
           <TV
             key={userId}
@@ -184,12 +187,23 @@ const App: FC = () => {
           )}
           <CollapsibleDiv
             id="start-watching"
+            condition={isWatching(users[myId], time)}
+          >
+            <div style={{ marginBottom: "10px" }} className="grid-container">
+              <button>+5 minuti</button>
+              <button>+10 minuti</button>
+              <button>+25 minuti</button>
+              <button>+45 minuti</button>
+            </div>
+          </CollapsibleDiv>
+          <CollapsibleDiv
+            id="start-watching"
             condition={!isWatching(users[myId], time)}
           >
             <p id="greetings">
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
             </p>
-            <div id="episodes-container">
+            <div className="grid-container">
               <CustomRunningTimeButton
                 selected={selectedEpisode === EpisodeTitle.Customized}
                 setSelected={() => setSelectedEpisode(EpisodeTitle.Customized)}

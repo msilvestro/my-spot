@@ -44,8 +44,17 @@ const App: FC = () => {
   const [myEmail, setMyEmail] = useState<null | string>(null)
   const [time, setTime] = useState(Date.now())
 
-  const updateWatching = async (userId: string, runningTime: number | null) => {
-    updateEndTime(userId, runningTime).then(() => setTime(Date.now()))
+  const addMinutes = async (
+    userId: string,
+    minutesToAdd: number | null,
+    startTime?: number
+  ) => {
+    const startTimeComplete = startTime || Math.floor(Date.now() / 1000)
+    const newEndTime = minutesToAdd
+      ? startTimeComplete + minutesToAdd * 60
+      : null
+    console.log(newEndTime)
+    updateEndTime(userId, newEndTime).then(() => setTime(Date.now()))
   }
 
   const watchingCount = Object.values(users).filter((user) =>
@@ -174,14 +183,12 @@ const App: FC = () => {
           {!isWatching(users[myId], time) ? (
             <button
               id="start"
-              onClick={() =>
-                updateWatching(myId, getRunningTime(selectedEpisode))
-              }
+              onClick={() => addMinutes(myId, getRunningTime(selectedEpisode))}
             >
               Comincia a guardare
             </button>
           ) : (
-            <button id="stop" onClick={() => updateWatching(myId, null)}>
+            <button id="stop" onClick={() => addMinutes(myId, null)}>
               Interrompi
             </button>
           )}
@@ -190,10 +197,19 @@ const App: FC = () => {
             condition={isWatching(users[myId], time)}
           >
             <div style={{ marginBottom: "10px" }} className="grid-container">
-              <button>+5 minuti</button>
-              <button>+10 minuti</button>
-              <button>+25 minuti</button>
-              <button>+45 minuti</button>
+              {[5, 10, 25, 45].map((minutes) => (
+                <button
+                  key={minutes}
+                  onClick={() => {
+                    const endTime = users[myId].endTime
+                    if (endTime) {
+                      addMinutes(myId, minutes, endTime)
+                    }
+                  }}
+                >
+                  +{minutes} minuti
+                </button>
+              ))}
             </div>
           </CollapsibleDiv>
           <CollapsibleDiv
@@ -236,7 +252,7 @@ const App: FC = () => {
           checked={users[myId].infiniteReservation === true}
           onChange={(checked) => {
             if (!isWatching(users[myId], time) && users[myId].endTime) {
-              updateWatching(myId, null)
+              addMinutes(myId, null)
             }
             updateinfiniteReservation(myId, checked)
           }}

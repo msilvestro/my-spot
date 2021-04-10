@@ -19,11 +19,9 @@ export const isWatching = (user: User, currentTime: number): boolean => {
 
 export const updateEndTime = async (
   userId: string,
-  duration: number | null
+  endTime: number | null
 ): Promise<void> => {
-  database
-    .ref(`users/${userId}/endTime`)
-    .set(duration ? Math.floor(Date.now() / 1000) + duration * 60 : null)
+  database.ref(`users/${userId}/endTime`).set(endTime)
 }
 
 export const updateCustomRunningTime = async (

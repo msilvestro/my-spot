@@ -2,6 +2,8 @@ import React, { FC, useState } from "react"
 import "./RunningTimeButton.css"
 import "./CustomRunningTimeButton.css"
 
+import Icon from "./Icon"
+
 import { toggleClass } from "../utils/css"
 import { declineTime } from "../utils/time"
 
@@ -66,7 +68,7 @@ const CustomRunningTimeButton: FC<Props> = ({
                 }
               }}
             >
-              ✔️
+              <Icon name="checkmark" />
             </button>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import React, { FC } from "react"
-import "./TV.css"
 
 import Switch from "react-switch"
 

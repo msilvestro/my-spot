@@ -193,10 +193,7 @@ const App: FC = () => {
               Interrompi
             </button>
           )}
-          <CollapsibleDiv
-            id="start-watching"
-            condition={isReserved(users[myId], time)}
-          >
+          <CollapsibleDiv condition={isReserved(users[myId], time)}>
             <div style={{ marginBottom: "10px" }} className="grid-container">
               {[5, 10, 25, 45].map((minutes) => (
                 <button
@@ -213,10 +210,7 @@ const App: FC = () => {
               ))}
             </div>
           </CollapsibleDiv>
-          <CollapsibleDiv
-            id="start-watching"
-            condition={!isWatching(users[myId], time)}
-          >
+          <CollapsibleDiv condition={!isWatching(users[myId], time)}>
             <p id="greetings">
               Ciao <b>{users[myId].name}</b>, cosa vuoi vedere oggi?
             </p>

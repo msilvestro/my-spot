@@ -22,11 +22,15 @@ h1 {
   color: red;
 }
 
-#tvs-container {
+.grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  margin-top: 20px;
-  margin-bottom: 20px;
+}
+
+.grid-container > div,
+.grid-container > button {
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 /* Middle buttons */
@@ -47,6 +51,8 @@ button {
   width: 100%;
   color: #e50914;
   border-color: #e50914;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 #start:disabled {
@@ -61,6 +67,8 @@ button {
   background-color: #e50914;
   color: white;
   border-color: #e50914;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 #start-watching {
@@ -74,11 +82,6 @@ p#greetings {
   margin: 0;
   margin-top: 10px;
   margin-bottom: 20px;
-}
-
-#episodes-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 #bottom-settings {

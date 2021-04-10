@@ -221,7 +221,13 @@ const App: FC = () => {
           type="checkbox"
           name="infinite-watching"
           checked={users[myId].infiniteWatching}
-          onChange={(e) => updateInfiniteWatching(myId, e.target.checked)}
+          onChange={(e) => {
+            const checked = e.target.checked
+            if (!isWatching(users[myId], time) && users[myId].endTime) {
+              updateWatching(myId, null)
+            }
+            updateInfiniteWatching(myId, checked)
+          }}
         />
         <label htmlFor="infinite-watching">
           {" "}

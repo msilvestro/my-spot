@@ -2,7 +2,7 @@ import { database } from "."
 
 export type User = {
   name: string
-  endTime: number
+  endTime: number // make me possibly undefined
   email: string
   emailAlt?: string
   customRunningTime?: number

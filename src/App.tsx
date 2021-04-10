@@ -8,6 +8,7 @@ import {
   updateEndTime,
   updateCustomRunningTime,
   updateinfiniteReservation,
+  isReserved,
 } from "./firebase/users"
 
 import CollapsibleDiv from "./components/CollapsibleDiv"
@@ -194,7 +195,7 @@ const App: FC = () => {
           )}
           <CollapsibleDiv
             id="start-watching"
-            condition={isWatching(users[myId], time)}
+            condition={isReserved(users[myId], time)}
           >
             <div style={{ marginBottom: "10px" }} className="grid-container">
               {[5, 10, 25, 45].map((minutes) => (

@@ -9,12 +9,19 @@ export type User = {
   infiniteReservation?: boolean
 }
 
-export const isWatching = (user: User, currentTime: number): boolean => {
+export const isReserved = (user: User, currentTime: number): boolean => {
   if (!user.endTime) {
     return false
   }
   const secondsLeft = user.endTime - Math.floor(currentTime / 1000)
-  return user.infiniteReservation || secondsLeft > 0
+  return secondsLeft > 0
+}
+
+export const isWatching = (user: User, currentTime: number): boolean => {
+  if (!user.endTime) {
+    return false
+  }
+  return user.infiniteReservation || isReserved(user, currentTime)
 }
 
 export const updateEndTime = async (

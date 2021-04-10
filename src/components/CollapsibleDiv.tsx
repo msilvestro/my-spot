@@ -27,7 +27,11 @@ const CollapsibleDiv: FC<Props> = ({
   }, [divRef, condition])
 
   return (
-    <div ref={divRef} style={{ height }} {...otherProps}>
+    <div
+      ref={divRef}
+      style={{ height, overflow: "hidden", transition: "height ease 1s" }}
+      {...otherProps}
+    >
       {children}
     </div>
   )

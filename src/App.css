@@ -38,29 +38,27 @@ h1 {
 button {
   padding: 20px;
   background-color: white;
-  color: black;
+  color: #e50914;
   font-weight: bold;
-  border: 1px solid black;
+  border: 1px solid #e50914;
   border-radius: 8px;
   cursor: pointer;
 }
 
-#start {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 100%;
-  color: #e50914;
-  border-color: #e50914;
-  margin-left: 2px;
-  margin-right: 2px;
-}
-
-#start:disabled {
+button:disabled {
   color: #888888;
   border-color: #888888;
 }
 
-#stop {
+button#start {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+button#stop {
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
@@ -69,11 +67,6 @@ button {
   border-color: #e50914;
   margin-left: 2px;
   margin-right: 2px;
-}
-
-#start-watching {
-  overflow: hidden;
-  transition: height ease 1s;
 }
 
 /* Episode running time selection */

@@ -21,6 +21,7 @@ const CustomSwitch: FC<Props> = ({
         display: "inline-flex",
         justifyContent: "space-between",
         alignItems: "center",
+        cursor: "pointer",
       }}
     >
       <span style={{ marginRight: "10px", textAlign: "start" }}>

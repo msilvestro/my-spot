@@ -49,8 +49,8 @@ button {
 }
 
 #start:disabled {
-  color: #757575;
-  border-color: #757575;
+  color: #888888;
+  border-color: #888888;
 }
 
 #stop {
